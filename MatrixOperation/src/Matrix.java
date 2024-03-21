@@ -9,4 +9,11 @@ public class Matrix {
 
     }
 
+    public int[] Transpose(int[] matrixUn) {
+
+        
+        return matrixUn;
+    }
+
 }
+// int[] myIntArray;
