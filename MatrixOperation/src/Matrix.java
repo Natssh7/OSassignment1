@@ -4,10 +4,24 @@ public class Matrix {
 
     public Matrix(int n, int m) {
         matrix = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j] = i;
+            }
+        }
     }
 
-    public void setValues(int n, int m) {
+    public Matrix(int n, int m, int val) {
         matrix = new int[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                matrix[i][j] = val;
+            }
+        }
+    }
+
+    public void setValues(int n, int m, int values) {
+        matrix[n][m] = values;
     }
 
     public int getLines() {
@@ -22,4 +36,15 @@ public class Matrix {
         return matrix[n][m];
     }
 
+    @Override
+    public String toString() {
+        String s = "the matrix is \n";
+        for (int i = 0; i < this.getLines(); i++) {
+            for (int j = 0; j < this.getColumn(); j++) {
+                s = s + matrix[i][j] + "   ";
+            }
+            s = s + "\n";
+        }
+        return s;
+    }
 }
