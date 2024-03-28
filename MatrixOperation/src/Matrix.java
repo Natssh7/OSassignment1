@@ -1,19 +1,25 @@
-import java.util.Random;
-
 public class Matrix {
 
-    private int n;
-    private int m;
+    private int[][] matrix;
 
-    public Matrix() {
-
+    public Matrix(int n, int m) {
+        matrix = new int[n][m];
     }
 
-    public int[] Transpose(int[] matrixUn) {
+    public void setValues(int n, int m) {
+        matrix = new int[n][m];
+    }
 
-        
-        return matrixUn;
+    public int getLines() {
+        return matrix.length;
+    }
+
+    public int getColumn() {
+        return matrix[0].length;
+    }
+
+    public int getValues(int n, int m) {
+        return matrix[n][m];
     }
 
 }
-// int[] myIntArray;
