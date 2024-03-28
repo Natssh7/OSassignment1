@@ -6,7 +6,7 @@ public class Main {
         Matrix A = new Matrix(4, 4);
         System.out.print(A.toString());
         System.out.println("After transposition");
-        Matrix B = new MatrixTranspo(A);
+        Matrix B = new MatrixTranspo(A, true);
         System.out.print(B.toString());
 
     }

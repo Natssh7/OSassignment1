@@ -12,8 +12,17 @@ public class MatrixTranspo extends Matrix {
 
     public MatrixTranspo(Matrix matrix, Boolean threadHere) {
         super(4, 4, 0);
+        System.out.println("icic");
         int numThreads = Runtime.getRuntime().availableProcessors(); // number of disponible thread
-        System.out.println(this.toString());
+        int segment;
+        if (numThreads > matrix.getColumn()) {
+            segment = 1;
+        } else {
+            segment = matrix.getColumn() / numThreads;
+        }
+        System.out.println(segment);
+        System.out.println(numThreads);
+
         for (int i = 0; i < matrix.getLines(); i++) {
             for (int j = 0; j < matrix.getColumn(); j++) {
                 this.setValues(j, i, matrix.getValues(i, j));
