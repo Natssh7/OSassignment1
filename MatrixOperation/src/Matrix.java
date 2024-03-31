@@ -1,12 +1,16 @@
+import java.util.Random;
+
 public class Matrix {
 
     private int[][] matrix;
 
     public Matrix(int n, int m) {
+        Random random = new Random();
         matrix = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                matrix[i][j] = i;
+                int randomInt = random.nextInt();
+                matrix[i][j] = randomInt;
             }
         }
     }
