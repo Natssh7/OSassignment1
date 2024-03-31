@@ -59,6 +59,8 @@ public class MatrixAdd {
         System.out.println("Enter the number of columns for the second matrix:");
         int col2 = scanner.nextInt();
 
+        scanner.close();
+
         if (row1 != row2 || col1 != col2) {
             throw new IllegalArgumentException("Matrices must have the same size");
         }
