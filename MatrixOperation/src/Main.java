@@ -31,27 +31,32 @@ public class Main {
                     case "y":
                         System.out.println("Enter the number of rows for the matrix:");
                         int n = scanner.nextInt();
-                        Matrix A = new Matrix(n, n);
+                        double time = 0;
+                        for (int i = 0; i < 100; i++) {
+                            Matrix A = new Matrix(n, n);
 
-                        System.out.println("After transposition");
+                            System.out.println("After transposition");
 
-                        long startTimetranspo = System.currentTimeMillis();
-                        Matrix C = new MatrixTranspo(A);
-                        long endTime = System.currentTimeMillis();
-                        long durationWThread = (endTime - startTimetranspo);
+                            long startTimetranspo = System.currentTimeMillis();
+                            Matrix C = new MatrixTranspo(A);
+                            long endTime = System.currentTimeMillis();
+                            long durationWThread = (endTime - startTimetranspo);
 
+                            System.out.println(
+                                    "Execution time for transposition without thread in milliseconde : "
+                                            + durationWThread);
+
+                            long startTimetranspoThread = System.currentTimeMillis();
+                            Matrix B = new MatrixTranspo(A, true);
+                            long endTimeThread = System.currentTimeMillis();
+
+                            long duration = (endTimeThread - startTimetranspoThread);
+                            time = time + duration;
+                        }
+                        time = time / 100;
                         System.out.println(
-                                "Execution time for transposition without thread in milliseconde : "
-                                        + durationWThread);
-
-                        long startTimetranspoThread = System.currentTimeMillis();
-                        Matrix B = new MatrixTranspo(A, true);
-                        long endTimeThread = System.currentTimeMillis();
-
-                        long duration = (endTimeThread - startTimetranspoThread);
-
-                        System.out.println(
-                                "Execution time for transposition with thread in milliseconde : " + duration);
+                                "Execution time for transposition with thread in milliseconde for 100 matrix : "
+                                        + time);
                         break;
                     case "n":
                         System.out.println("Enter the number of rows for the first matrix:");
