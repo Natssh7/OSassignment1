@@ -10,17 +10,7 @@ public class Main {
 
         switch (exo) {
             case 1:
-                System.out.println("Enter the number of rows for the first matrix:");
-                int row1 = scanner.nextInt();
-
-                System.out.println("Enter the number of columns for the first matrix:");
-                int col1 = scanner.nextInt();
-
-                System.out.println("Enter the number of rows for the second matrix:");
-                int row2 = scanner.nextInt();
-
-                System.out.println("Enter the number of columns for the second matrix:");
-                int col2 = scanner.nextInt();
+                MatrixAdd.main(null);
                 break;
             case 2:
                 System.out.println("Enter the number of rows for the first matrix:");
@@ -54,52 +44,65 @@ public class Main {
                     case "y":
                         System.out.println("Enter the number of rows for the matrix:");
                         int n = scanner.nextInt();
-                        Matrix A = new Matrix(n, n);
+                        double timeThread = 0;
+                        double timeWhithout = 0;
+                        for (int i = 0; i < 1000; i++) {
+                            Matrix A = new Matrix(n, n);
 
+                            long startTimetranspo = System.currentTimeMillis();
+                            Matrix C = new MatrixTranspo(A);
+                            long endTime = System.currentTimeMillis();
+                            long durationWThread = (endTime - startTimetranspo);
+                            timeWhithout = timeWhithout + durationWThread;
+
+                            long startTimetranspoThread = System.currentTimeMillis();
+                            Matrix B = new MatrixTranspo(A, true);
+                            long endTimeThread = System.currentTimeMillis();
+
+                            long duration = (endTimeThread - startTimetranspoThread);
+                            timeThread = timeThread + duration;
+                        }
                         System.out.println("After transposition");
-
-                        long startTimetranspo = System.currentTimeMillis();
-                        Matrix C = new MatrixTranspo(A);
-                        long endTime = System.currentTimeMillis();
-                        long durationWThread = (endTime - startTimetranspo);
-
+                        timeThread = timeThread / 100;
+                        timeWhithout = timeWhithout / 100;
                         System.out.println(
-                                "Execution time for transposition without thread in milliseconde : "
-                                        + durationWThread);
-
-                        long startTimetranspoThread = System.currentTimeMillis();
-                        Matrix B = new MatrixTranspo(A, true);
-                        long endTimeThread = System.currentTimeMillis();
-
-                        long duration = (endTimeThread - startTimetranspoThread);
-
+                                "Execution time for transposition with thread in milliseconde for 1000 matrix : "
+                                        + timeThread);
                         System.out.println(
-                                "Execution time for transposition with thread in milliseconde : " + duration);
+                                "Execution time for transposition without thread in milliseconde for 1000 matrix : "
+                                        + timeWhithout);
                         break;
                     case "n":
                         System.out.println("Enter the number of rows for the first matrix:");
                         int row = scanner.nextInt();
                         System.out.println("Enter the number of columns for the first matrix:");
                         int col = scanner.nextInt();
-                        Matrix A2 = new Matrix(row, col);
+                        double timeThread2 = 0;
+                        double timeWhithout2 = 0;
+                        for (int i = 0; i < 1000; i++) {
+                            Matrix A2 = new Matrix(row, col);
+
+                            long startranspo = System.currentTimeMillis();
+                            Matrix C2 = new MatrixTranspo(A2, true);
+                            long end = System.currentTimeMillis();
+                            long durThread = (end - startranspo);
+                            timeThread2 = timeThread2 + durThread;
+
+                            long startWtranspo = System.currentTimeMillis();
+                            Matrix B2 = new MatrixTranspo(A2);
+                            long endW = System.currentTimeMillis();
+                            long durWThread = (endW - startWtranspo);
+                            timeWhithout2 = timeWhithout2 + durWThread;
+                        }
+                        timeThread2 = timeThread2 / 100;
+                        timeWhithout2 = timeWhithout2 / 100;
                         System.out.println("After transposition");
-
-                        long startranspo = System.currentTimeMillis();
-                        Matrix C2 = new MatrixTranspo(A2, true);
-                        long end = System.currentTimeMillis();
-                        long durThread = (end - startranspo);
-
                         System.out.println(
-                                "Execution time for transposition with thread in milliseconde : " + durThread);
-
-                        long startWtranspo = System.currentTimeMillis();
-                        Matrix B2 = new MatrixTranspo(A2);
-                        long endW = System.currentTimeMillis();
-                        long durWThread = (endW - startWtranspo);
-
+                                "Execution time for transposition with thread in milliseconde for 1000 matrix : "
+                                        + timeThread2);
                         System.out.println(
-                                "Execution time for transposition without thread in milliseconde : "
-                                        + durWThread);
+                                "Execution time for transposition without thread in milliseconde for 100 matrix : "
+                                        + timeWhithout2);
 
                         break;
                     default:
