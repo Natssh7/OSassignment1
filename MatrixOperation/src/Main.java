@@ -23,6 +23,29 @@ public class Main {
                 int col2 = scanner.nextInt();
                 break;
             case 2:
+                System.out.println("Enter the number of rows for the first matrix:");
+                int n1 = scanner.nextInt();
+
+                System.out.println("Enter the number of columns for the first matrix:");
+                int m1 = scanner.nextInt();
+
+                System.out.println("Enter the number of rows for the second matrix:");
+                int n2 = scanner.nextInt();
+
+                System.out.println("Enter the number of columns for the second matrix:");
+                int m2 = scanner.nextInt();
+                Matrix Y1 = new Matrix(n1,m1);
+                Matrix Y2 = new Matrix(n2,m2);
+
+                long startTimeMultiplication = System.currentTimeMillis();
+                MatrixMultiplication.Multiplication(Y1,Y2);
+                long endTime = System.currentTimeMillis();
+                long durationWithoutThread = (endTime - startTimeMultiplication);
+
+                System.out.println(
+                        "Execution time for Multiplication without thread in milliseconde : "
+                                + durationWithoutThread);
+
                 break;
             case 3:
                 System.out.println("Do you want a square matrix ? y/n");
