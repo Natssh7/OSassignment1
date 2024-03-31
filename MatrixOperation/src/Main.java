@@ -10,17 +10,7 @@ public class Main {
 
         switch (exo) {
             case 1:
-                System.out.println("Enter the number of rows for the first matrix:");
-                int row1 = scanner.nextInt();
-
-                System.out.println("Enter the number of columns for the first matrix:");
-                int col1 = scanner.nextInt();
-
-                System.out.println("Enter the number of rows for the second matrix:");
-                int row2 = scanner.nextInt();
-
-                System.out.println("Enter the number of columns for the second matrix:");
-                int col2 = scanner.nextInt();
+                MatrixAdd.main(null);
                 break;
             case 2:
                 break;
