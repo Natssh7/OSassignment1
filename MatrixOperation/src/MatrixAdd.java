@@ -5,6 +5,7 @@ import java.util.InputMismatchException;
 
 public class MatrixAdd {
     private int rows;
+    abc
     private int cols;
     private int[][] data;
 
