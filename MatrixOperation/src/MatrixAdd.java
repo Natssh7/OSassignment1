@@ -1,5 +1,3 @@
-// import java.util.Scanner;
-
 import java.util.Scanner;
 
 public class MatrixAdd {
@@ -15,20 +13,20 @@ public class MatrixAdd {
 
     // USED FOR SINGLE THREAD
 
-    /* public static MatrixAdd add(MatrixAdd a, MatrixAdd b) {
-        if (a.matrix.getLines() != b.matrix.getLines() || a.matrix.getColumn() != b.matrix.getColumn()) {
+    public static MatrixAdd add(MatrixAdd matrix1, MatrixAdd matrix2) {
+        if (matrix1.matrix.getLines() != matrix2.matrix.getLines() || matrix1.matrix.getColumn() != matrix2.matrix.getColumn()) {
             throw new IllegalArgumentException("Matrices must have the same size");
         }
 
-        MatrixAdd result = new MatrixAdd(a.matrix.getLines(), a.matrix.getColumn());
-        for (int i = 0; i < a.matrix.getLines(); i++) {
-            for (int j = 0; j < a.matrix.getColumn(); j++) {
-                int sum = a.get(i, j) + b.get(i, j);
+        MatrixAdd result = new MatrixAdd(matrix1.matrix.getLines(), matrix1.matrix.getColumn());
+        for (int i = 0; i < matrix1.matrix.getLines(); i++) {
+            for (int j = 0; j < matrix1.matrix.getColumn(); j++) {
+                int sum = matrix1.matrix.getValues(i, j) + matrix2.matrix.getValues(i, j);
                 result.matrix.setValues(i, j, sum);
             }
         }
         return result;
-    } */
+    }
 
     ////////////////////////////
 
@@ -80,30 +78,46 @@ public class MatrixAdd {
     // USED FOR SINGLE THREAD
 
     public static void main(String[] args) { 
-        Scanner scannerAdd = new Scanner(System.in);
-
-        System.out.println("Enter the number of rows for the matrices:");
         try {
+            Scanner scannerAdd = new Scanner(System.in);
+
+            System.out.println("Enter the number of rows for the matrices:");
             int rows = scannerAdd.nextInt();
 
             System.out.println("Enter the number of columns for the matrices:");
             int cols = scannerAdd.nextInt();
+            scannerAdd.close(); 
+            for(int i=0; i < 10; i++) {
+                Matrix matrix1 = new Matrix(rows, cols);
+                Matrix matrix2 = new Matrix(rows, cols);
 
-            Matrix matrix1 = new Matrix(rows, cols);
-            Matrix matrix2 = new Matrix(rows, cols);
+                //System.out.println(matrix1.toString());
+                //System.out.println(matrix2.toString());
 
-            long startTimeAdd = System.currentTimeMillis();
-            Matrix resultAdd = MatrixAdd.add(matrix1, matrix2, 4);  // Use 4 threads
-            long endTimeAdd = System.currentTimeMillis();
+                long startTimeMultiAdd = System.currentTimeMillis();
+                MatrixAdd.add(matrix1, matrix2, 4);  // Use 4 threads
+                long endTimeMultiAdd = System.currentTimeMillis();
 
-            long durationAdd = endTimeAdd - startTimeAdd;
-            System.out.println("Execution time for addition with 4 threads in milliseconds: " + durationAdd);
-            scannerAdd.close();
+                long startTimeSingleAdd = System.currentTimeMillis();
+                // Assuming matrix1 and matrix2 are initialized and filled elsewhere
+                MatrixAdd matrixAdd1 = new MatrixAdd(rows, cols);
+                MatrixAdd matrixAdd2 = new MatrixAdd(rows, cols);
+                // Now, use matrixAdd1 and matrixAdd2 with addSingle
+                MatrixAdd.add(matrixAdd1, matrixAdd2);
+                long endTimeSingleAdd = System.currentTimeMillis();
+
+                //System.out.println(MatrixAdd.add(matrix1, matrix2, 4).toString());
+
+                long durationMultiAdd = endTimeMultiAdd - startTimeMultiAdd;
+                System.out.println("\nExecution time for addition with 4 threads in milliseconds: " + durationMultiAdd);
+
+                long durationSingleAdd = endTimeSingleAdd - startTimeSingleAdd;
+                System.out.println("Execution time for addition in single thread in milliseconds: " + durationSingleAdd); 
+            }
         } catch (InterruptedException e) {
-            // Handle InterruptedException
-            e.printStackTrace();
+                // Handle InterruptedException
+                e.printStackTrace();
         } 
-    }
-
-    ////////////////////////////
+    } 
 }
+
