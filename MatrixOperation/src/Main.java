@@ -53,15 +53,28 @@ public class Main {
                 Matrix Y1 = new Matrix(n1,m1);
                 Matrix Y2 = new Matrix(n2,m2);
 
-                long startTimeMultiplication = System.currentTimeMillis();
-                MatrixMultiplication.Multiplication(Y1,Y2);
-                long endTimeM = System.currentTimeMillis();
-                long durationWithoutThread = (endTimeM - startTimeMultiplication);
+                int sumWithout = 0 ;
+                int sumWith = 0 ;
+                for(int i = 0; i < 100;i++){
+                    
+                    long startTimeMultiplication = System.currentTimeMillis();
+                    MatrixMultiplication.Multiplication(Y1,Y2);
+                    long endTimeM = System.currentTimeMillis();
+                    long durationWithoutThread = (endTimeM - startTimeMultiplication);
 
-                System.out.println(
-                        "Execution time for Multiplication without thread in milliseconde : "
-                                + durationWithoutThread);
+                    //System.out.println("Execution time for Multiplication without thread in milliseconde : " + durationWithoutThread);
+                    sumWithout += durationWithoutThread;
 
+                    long startTimeMultiplicationWith = System.currentTimeMillis();
+                    MatrixMultiplication.MultiplicationWithThread(Y1, Y2);
+                    long endTimeMTh = System.currentTimeMillis();
+                    long durationWithThread = (endTimeMTh - startTimeMultiplicationWith);
+
+                    //System.out.println("Execution time for Multiplication with thread in milliseconde : " + durationWithThread);
+                    sumWith += durationWithThread;
+                }
+                System.out.println("Average execution time for Multiplication without thread in milliseconde : " + sumWithout/100);
+                System.out.println("Average execution time for Multiplication with thread in milliseconde : " + sumWith/100);
                 break;
             case 3:
                 System.out.println("Do you want a square matrix ? y/n");
