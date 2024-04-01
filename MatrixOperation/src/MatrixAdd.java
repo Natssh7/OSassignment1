@@ -1,7 +1,6 @@
 // import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.*;
+
+import java.util.Scanner;
 
 public class MatrixAdd {
     private Matrix matrix;
@@ -33,66 +32,78 @@ public class MatrixAdd {
 
     ////////////////////////////
 
-    public static Matrix add(Matrix a, Matrix b, int numThreads) throws InterruptedException, ExecutionException {
+    public static Matrix add(Matrix a, Matrix b, int numThreads) throws InterruptedException {
+        // Checking if the matrix have the same dimensions
         if (a.getLines() != b.getLines() || a.getColumn() != b.getColumn()) {
             throw new IllegalArgumentException("Matrices must have the same size");
         }
 
-        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-        List<Future<Matrix>> futures = new ArrayList<>();
+        Thread[] threads = new Thread[numThreads];
+        Matrix[] partialResults = new Matrix[numThreads];
 
         int blockSize = a.getLines() / numThreads;
         for (int i = 0; i < numThreads; i++) {
-            int startRow = i * blockSize;
-            int endRow = (i == numThreads - 1) ? a.getLines() : startRow + blockSize;
-            MatrixAdditionTask task = new MatrixAdditionTask(a, b, startRow, endRow);
-            Future<Matrix> future = executor.submit(task);
-            futures.add(future);
+            final int startRow = i * blockSize;
+            final int endRow = (i == numThreads - 1) ? a.getLines() : startRow + blockSize;
+            final int index = i;
+            threads[i] = new Thread(() -> {
+                Matrix result = new Matrix(endRow - startRow, a.getColumn());
+                for (int row = startRow; row < endRow; row++) {
+                    for (int col = 0; col < a.getColumn(); col++) {
+                        int sum = a.getValues(row, col) + b.getValues(row, col);
+                        result.setValues(row - startRow, col, sum);
+                    }
+                }
+                partialResults[index] = result;
+            });
+            threads[i].start();
+        }
+
+        for (Thread thread : threads) {
+            thread.join();
         }
 
         Matrix result = new Matrix(a.getLines(), a.getColumn());
-        for (Future<Matrix> future : futures) {
-            Matrix blockResult = future.get();
+        for (int part = 0; part < numThreads; part++) {
+            Matrix blockResult = partialResults[part];
+            int startRow = part * blockSize;
             for (int i = 0; i < blockResult.getLines(); i++) {
                 for (int j = 0; j < blockResult.getColumn(); j++) {
-                    result.setValues(i, j, blockResult.getValues(i, j));
+                    result.setValues(i + startRow, j, blockResult.getValues(i, j));
                 }
             }
         }
-
-        executor.shutdown();
 
         return result;
     }
 
     // USED FOR SINGLE THREAD
 
-    /*public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) { 
+        Scanner scannerAdd = new Scanner(System.in);
 
         System.out.println("Enter the number of rows for the matrices:");
-        int rows = scanner.nextInt();
+        try {
+            int rows = scannerAdd.nextInt();
 
-        System.out.println("Enter the number of columns for the matrices:");
-        int cols = scanner.nextInt();
+            System.out.println("Enter the number of columns for the matrices:");
+            int cols = scannerAdd.nextInt();
 
-        MatrixAdd matrix1 = new MatrixAdd(rows, cols);
-        MatrixAdd matrix2 = new MatrixAdd(rows, cols);
+            Matrix matrix1 = new Matrix(rows, cols);
+            Matrix matrix2 = new Matrix(rows, cols);
 
-        System.out.println("The first matrix is:");
-        System.out.println(matrix1.matrix.toString());
+            long startTimeAdd = System.currentTimeMillis();
+            Matrix resultAdd = MatrixAdd.add(matrix1, matrix2, 4);  // Use 4 threads
+            long endTimeAdd = System.currentTimeMillis();
 
-        System.out.println("The second matrix is:");
-        System.out.println(matrix2.matrix.toString());
-
-        // MatrixAdd result = MatrixAdd.add(matrix1, matrix2);
-        Matrix result = MatrixAdd.add(matrix1.matrix, matrix2.matrix, 4);
-
-        System.out.println("The sum of the matrices is:");
-        System.out.println(result.matrix.toString());
-
-        scanner.close();
-    } */
+            long durationAdd = endTimeAdd - startTimeAdd;
+            System.out.println("Execution time for addition with 4 threads in milliseconds: " + durationAdd);
+            scannerAdd.close();
+        } catch (InterruptedException e) {
+            // Handle InterruptedException
+            e.printStackTrace();
+        } 
+    }
 
     ////////////////////////////
 }
