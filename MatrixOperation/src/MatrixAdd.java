@@ -1,4 +1,7 @@
-import java.util.Scanner;
+// import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class MatrixAdd {
     private Matrix matrix;
@@ -11,7 +14,9 @@ public class MatrixAdd {
         return this.matrix.getValues(row, col);
     }
 
-    public static MatrixAdd add(MatrixAdd a, MatrixAdd b) {
+    // USED FOR SINGLE THREAD
+
+    /* public static MatrixAdd add(MatrixAdd a, MatrixAdd b) {
         if (a.matrix.getLines() != b.matrix.getLines() || a.matrix.getColumn() != b.matrix.getColumn()) {
             throw new IllegalArgumentException("Matrices must have the same size");
         }
@@ -24,9 +29,45 @@ public class MatrixAdd {
             }
         }
         return result;
+    } */
+
+    ////////////////////////////
+
+    public static Matrix add(Matrix a, Matrix b, int numThreads) throws InterruptedException, ExecutionException {
+        if (a.getLines() != b.getLines() || a.getColumn() != b.getColumn()) {
+            throw new IllegalArgumentException("Matrices must have the same size");
+        }
+
+        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+        List<Future<Matrix>> futures = new ArrayList<>();
+
+        int blockSize = a.getLines() / numThreads;
+        for (int i = 0; i < numThreads; i++) {
+            int startRow = i * blockSize;
+            int endRow = (i == numThreads - 1) ? a.getLines() : startRow + blockSize;
+            MatrixAdditionTask task = new MatrixAdditionTask(a, b, startRow, endRow);
+            Future<Matrix> future = executor.submit(task);
+            futures.add(future);
+        }
+
+        Matrix result = new Matrix(a.getLines(), a.getColumn());
+        for (Future<Matrix> future : futures) {
+            Matrix blockResult = future.get();
+            for (int i = 0; i < blockResult.getLines(); i++) {
+                for (int j = 0; j < blockResult.getColumn(); j++) {
+                    result.setValues(i, j, blockResult.getValues(i, j));
+                }
+            }
+        }
+
+        executor.shutdown();
+
+        return result;
     }
 
-    public static void main(String[] args) {
+    // USED FOR SINGLE THREAD
+
+    /*public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the number of rows for the matrices:");
@@ -44,11 +85,14 @@ public class MatrixAdd {
         System.out.println("The second matrix is:");
         System.out.println(matrix2.matrix.toString());
 
-        MatrixAdd result = MatrixAdd.add(matrix1, matrix2);
+        // MatrixAdd result = MatrixAdd.add(matrix1, matrix2);
+        Matrix result = MatrixAdd.add(matrix1.matrix, matrix2.matrix, 4);
 
         System.out.println("The sum of the matrices is:");
         System.out.println(result.matrix.toString());
 
         scanner.close();
-    }
+    } */
+
+    ////////////////////////////
 }

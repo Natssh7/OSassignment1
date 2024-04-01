@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.ExecutionException;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,7 +11,32 @@ public class Main {
 
         switch (exo) {
             case 1:
-                MatrixAdd.main(null);
+                Scanner scannerAdd = new Scanner(System.in);
+
+                System.out.println("Enter the number of rows for the matrices:");
+                try {
+                    int rows = scannerAdd.nextInt();
+
+                    System.out.println("Enter the number of columns for the matrices:");
+                    int cols = scannerAdd.nextInt();
+
+                    Matrix matrix1 = new Matrix(rows, cols);
+                    Matrix matrix2 = new Matrix(rows, cols);
+
+                    long startTimeAdd = System.currentTimeMillis();
+                    Matrix resultAdd = MatrixAdd.add(matrix1, matrix2, 4);  // Use 4 threads
+                    long endTimeAdd = System.currentTimeMillis();
+
+                    long durationAdd = endTimeAdd - startTimeAdd;
+                    System.out.println("Execution time for addition with 4 threads in milliseconds: " + durationAdd);
+                    scannerAdd.close();
+                } catch (InterruptedException e) {
+                    // Handle InterruptedException
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    // Handle ExecutionException
+                    e.printStackTrace();
+                }
                 break;
             case 2:
                 System.out.println("Enter the number of rows for the first matrix:");
