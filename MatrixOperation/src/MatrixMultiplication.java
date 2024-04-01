@@ -22,4 +22,27 @@ public class MatrixMultiplication extends Matrix{
         return matrixC;
     }
 
+    public static Matrix MultiplicationWithThread(Matrix matrixA, Matrix matrixB){
+
+
+    public static void main(String[] args) {
+        Matrix A1 = new Matrix(2, 2);
+        A1.setValues(0,0,1);
+        A1.setValues(0,1,2);
+        A1.setValues(1,0,3);
+        A1.setValues(1,1,4);
+        Matrix A2 = new Matrix(2, 3);
+        A2.setValues(0,0,1);
+        A2.setValues(0,1,2);
+        A2.setValues(0,2,3);
+        A2.setValues(1,0,4);
+        A2.setValues(1,1,5);
+        A2.setValues(1,2,6);
+        //System.out.println(A2.toString());
+        //System.out.println(A2.getColumn());
+        System.out.println(MatrixMultiplication.Multiplication(A1,A2).toString());
+        //System.out.println(MatrixMultiplication.Multiplication(A2,A1).toString());
+    }
+
 }
+

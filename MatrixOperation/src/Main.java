@@ -29,8 +29,8 @@ public class Main {
 
                 long startTimeMultiplication = System.currentTimeMillis();
                 MatrixMultiplication.Multiplication(Y1,Y2);
-                long endTime = System.currentTimeMillis();
-                long durationWithoutThread = (endTime - startTimeMultiplication);
+                long endTimeM = System.currentTimeMillis();
+                long durationWithoutThread = (endTimeM - startTimeMultiplication);
 
                 System.out.println(
                         "Execution time for Multiplication without thread in milliseconde : "

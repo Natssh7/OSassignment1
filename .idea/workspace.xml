@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd7a082b-10cc-43ea-8f9e-e90044dabd8c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MatrixOperation/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/MatrixOperation/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MatrixOperation/src/MatrixMultiplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/MatrixOperation/src/MatrixMultiplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +58,7 @@
       <workItem from="1711916387956" duration="705000" />
       <workItem from="1711919289421" duration="2377000" />
       <workItem from="1711923028315" duration="912000" />
+      <workItem from="1711924540566" duration="55000" />
     </task>
     <servers />
   </component>
