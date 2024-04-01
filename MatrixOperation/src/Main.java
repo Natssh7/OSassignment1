@@ -40,8 +40,8 @@ public class Main {
                             timeThread = timeThread + duration;
                         }
                         System.out.println("After transposition");
-                        timeThread = timeThread / 100;
-                        timeWhithout = timeWhithout / 100;
+                        timeThread = timeThread / 1000;
+                        timeWhithout = timeWhithout / 1000;
                         System.out.println(
                                 "Execution time for transposition with thread in milliseconde for 1000 matrix : "
                                         + timeThread);
@@ -71,14 +71,14 @@ public class Main {
                             long durWThread = (endW - startWtranspo);
                             timeWhithout2 = timeWhithout2 + durWThread;
                         }
-                        timeThread2 = timeThread2 / 100;
-                        timeWhithout2 = timeWhithout2 / 100;
+                        timeThread2 = timeThread2 / 1000;
+                        timeWhithout2 = timeWhithout2 / 1000;
                         System.out.println("After transposition");
                         System.out.println(
                                 "Execution time for transposition with thread in milliseconde for 1000 matrix : "
                                         + timeThread2);
                         System.out.println(
-                                "Execution time for transposition without thread in milliseconde for 100 matrix : "
+                                "Execution time for transposition without thread in milliseconde for 1000 matrix : "
                                         + timeWhithout2);
 
                         break;
