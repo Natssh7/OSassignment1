@@ -86,8 +86,12 @@ public class MatrixAdd {
 
             System.out.println("Enter the number of columns for the matrices:");
             int cols = scannerAdd.nextInt();
+
+            long sumSingleAdd = 0; // Initialize sumSingleAdd
+            long sumMultiAdd = 0; // Initialize sumMultiAdd
+            long sum10MultiAdd = 0; // Initialize sum10MultiAdd
             scannerAdd.close(); 
-            for(int i=0; i < 10; i++) {
+            for(int i=0; i < 100; i++) {
                 Matrix matrix1 = new Matrix(rows, cols);
                 Matrix matrix2 = new Matrix(rows, cols);
 
@@ -97,6 +101,10 @@ public class MatrixAdd {
                 long startTimeMultiAdd = System.currentTimeMillis();
                 MatrixAdd.add(matrix1, matrix2, 4);  // Use 4 threads
                 long endTimeMultiAdd = System.currentTimeMillis();
+
+                long startTime10MultiAdd = System.currentTimeMillis();
+                MatrixAdd.add(matrix1, matrix2, 10);  // Use 10 threads
+                long endTime10MultiAdd = System.currentTimeMillis();
 
                 long startTimeSingleAdd = System.currentTimeMillis();
                 // Assuming matrix1 and matrix2 are initialized and filled elsewhere
@@ -111,9 +119,21 @@ public class MatrixAdd {
                 long durationMultiAdd = endTimeMultiAdd - startTimeMultiAdd;
                 System.out.println("\nExecution time for addition with 4 threads in milliseconds: " + durationMultiAdd);
 
+                sumMultiAdd += durationMultiAdd; 
+
+                long duration10MultiAdd = endTime10MultiAdd - startTime10MultiAdd;
+                System.out.println("Execution time for addition with 10 threads in milliseconds: " + duration10MultiAdd);
+
+                sum10MultiAdd += duration10MultiAdd;
+
                 long durationSingleAdd = endTimeSingleAdd - startTimeSingleAdd;
                 System.out.println("Execution time for addition in single thread in milliseconds: " + durationSingleAdd); 
+            
+                sumSingleAdd += durationSingleAdd;
             }
+            System.out.println("\nAverage execution time for addition with 4 threads in milliseconds: " + sumMultiAdd/100);
+            System.out.println("Average execution time for addition with 10 threads in milliseconds: " + sum10MultiAdd/100);
+            System.out.println("Average execution time for addition in single thread in milliseconds: " + sumSingleAdd/100);
         } catch (InterruptedException e) {
                 // Handle InterruptedException
                 e.printStackTrace();
